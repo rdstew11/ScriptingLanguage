@@ -1,4 +1,15 @@
-# [02/10/24] C/C++ Setup
+# [02/10/24] 
+## C/C++ Setup
 - Installed MSYS2 to `\opt\`
 - MSYS2 command to instal mingw lib: `pacman -S --needed base-devel mingw-w64-ucrt-x86_64-toolchain`
 - Added `\MSYS2\ucrt64\bin` to PATH
+
+## Java Lox
+- Completed Scanner implementation
+    - Added minimum required token types
+    - Multiline comments are allowed
+    - Multicharacter parsing for !, =, /, <, >
+    - Identifier parsing
+    - Added block comment parsing
+    - Alphanumeric Character check based on char value
+    
