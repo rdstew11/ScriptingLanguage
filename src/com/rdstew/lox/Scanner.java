@@ -1,3 +1,7 @@
+/*
+ * The purpose of this class is to take the raw source code as a string and convert
+ * it to a high-level representation as a series of tokens.
+ */
 package com.rdstew.lox;
 
 import java.util.ArrayList;
