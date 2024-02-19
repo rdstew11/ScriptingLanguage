@@ -1,3 +1,19 @@
+# [02/19/24]
+## Added
+- `Stmt` class and wired up `Interpreter` to execute statement objects
+- `RuntimeError` for errors occured during `Interpreter.interpret()`
+- Test code: `test.lx` for testing transpilation process.
+
+## Updated
+- Grammar rules:
+    - new:
+        - `program` -> `declaration` `EOF` ;
+        - `declaration` -> `varDecl` | `statement` ;
+        - `varDecl` -> "var" `IDENTIFIER` ( "=" `expression` )? ";";
+    - updated:
+        `primary` new option: `IDENTIFIER`
+- `Parser.parse()` now returns a list of `Stmt` objects instead of expressions.
+
 # [02/17/24]
 ## Added
 - Create Parser (Recursive Descent Parser) with Grammar rules for parsing seqeuence of Tokens into expressions.
