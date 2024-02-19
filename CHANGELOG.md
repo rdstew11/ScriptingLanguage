@@ -1,3 +1,20 @@
+# [02/19/24]
+
+# [02/17/24]
+## Added
+- Create Parser (Recursive Descent Parser) with Grammar rules for parsing seqeuence of Tokens into expressions.
+    - Grammar rules (Highest precendence at the top)
+        - `expression` -> `equality`;
+        - `equality` -> `comparison` ( ( "!=" | "++" ) `comparision` )* ;
+        - `comparision` -> `term` ( ( "<" | "<=" | ">" | ">=" ) `term` )* ;
+        - `term` -> `factor` ( ( "-" | "+" ) `factor` )* ;
+        - `factor` -> `unary` ( ( "*" | "/" ) `unary` )* ;
+        - `unary` -> ( "!" | "-" ) `unary` | `primary` ;
+        - `primary` -> `NUMBER` | `STRING` | "true" | "false" | "nil" | "(" `expression` ")" ;
+- Basic Syntax Errors for when parsing finds an issue generating expressions from Token sequence
+- `Parser.synchronize()` to get parsing back on track after encountering a syntax error.
+- `Interpreter.java` for converting `Expressions` into Java code.
+
 # [02/10/24]
 ## Added
 - Created Expr classes

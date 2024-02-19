@@ -1,7 +1,5 @@
 package com.rdstew.lox;
 
-import com.rdstew.lox.Expr.Literal;
-
 class Interpreter implements Expr.Visitor<Object> {
 
     void interpret(Expr expression) {
