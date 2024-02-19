@@ -38,7 +38,7 @@ class Parser {
     private Stmt expressionStatement() {
         Expr value = expression();
         consume(TokenType.SEMICOLON, "Expect ';' after value.");
-        return new Stmt.Expresion(value);
+        return new Stmt.Expression(value);
     }
 
     private Expr expression() {
