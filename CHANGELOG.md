@@ -1,5 +1,3 @@
-# [02/19/24]
-
 # [02/17/24]
 ## Added
 - Create Parser (Recursive Descent Parser) with Grammar rules for parsing seqeuence of Tokens into expressions.
