@@ -13,7 +13,7 @@
 - `Parser.synchronize()` to get parsing back on track after encountering a syntax error.
 - `Interpreter.java` for converting `Expressions` into Java code.
 
-# [02/10/24]
+# [02/14/24]
 ## Added
 - Created Expr classes
     - Implemented Visitor pattern for Expr subclasses
