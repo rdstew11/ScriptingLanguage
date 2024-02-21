@@ -24,6 +24,28 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         statement.accept(this);
     }
 
+    private void executeBlock(List<Stmt> statements, Environment environment) {
+        Environment previous = this.environment;
+        try {
+            /**
+             * Replace interpreter current evironment with new one created
+             * This way all the state updates that happen with Statement Visitor object
+             * begin with the new environment and propogate upwards.
+             *
+             * Alternative would be to pass the environment as a parameter to each of
+             * the `visit` methods, leaving the Java stack in control of discarding
+             * when returning from the block's visit method.
+             **/
+            this.environment = environment;
+
+            for (Stmt statement : statements) {
+                execute(statement);
+            }
+        } finally {
+            this.environment = previous;
+        }
+    }
+
     @Override
     public Void visitVarStmt(Stmt.Var stmt) {
         Object value = null;
@@ -45,6 +67,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitPrintStmt(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
+        return null;
+    }
+
+    @Override
+    public Void visitBlockStmt(Stmt.Block stmt) {
+        executeBlock(stmt.statements, new Environment(environment));
         return null;
     }
 
