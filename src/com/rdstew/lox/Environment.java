@@ -28,17 +28,18 @@ class Environment {
             return enclosing.get(name);
         }
 
-        throw new RuntimeError(name, "Undefined varaible '" + name.lexeme + "'.");
+        throw new RuntimeError(name, "GET Undefined varaible '" + name.lexeme + "'.");
     }
 
     void assign(Token name, Object value) {
         if (values.containsKey(name.lexeme)) {
             values.put(name.lexeme, value);
+            return;
         } else if (enclosing != null) {
             enclosing.assign(name, value);
+            return;
         }
-
-        throw new RuntimeError(name, "Undefined variable: '" + name.lexeme + "'.");
+        throw new RuntimeError(name, "ASSIGN Undefined variable: '" + name.lexeme + "'.");
 
     }
 }

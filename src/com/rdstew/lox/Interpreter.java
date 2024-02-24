@@ -1,5 +1,6 @@
 package com.rdstew.lox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
@@ -37,7 +38,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
              * when returning from the block's visit method.
              **/
             this.environment = environment;
-
             for (Stmt statement : statements) {
                 execute(statement);
             }
@@ -64,9 +64,27 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitIfStmt(Stmt.If stmt) {
+        if (isTruthy(evaluate(stmt.condition))) {
+            execute(stmt.thenBranch);
+        } else if (stmt.elseBranch != null) {
+            execute(stmt.elseBranch);
+        }
+        return null;
+    }
+
+    @Override
     public Void visitPrintStmt(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
+        return null;
+    }
+
+    @Override
+    public Void visitWhileStmt(Stmt.While stmt) {
+        while (isTruthy(evaluate(stmt.condition))) {
+            execute(stmt.body);
+        }
         return null;
     }
 
@@ -79,13 +97,30 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitAssignExpr(Expr.Assign stmt) {
         Object value = evaluate(stmt.value);
-        environment.assign(stmt.name, environment);
+        environment.assign(stmt.name, value);
         return value;
     }
 
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) {
         return expr.value;
+    }
+
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr) {
+        Object left = evaluate(expr.left);
+
+        // Short circuit logic
+        // If Left is true and Operator is OR, return true
+        // If left is false and operator is AND, return false
+        // Else return whatever is on the right
+        if (expr.operator.type == TokenType.OR && isTruthy(left)) {
+            return left;
+        } else if (!isTruthy(left)) {
+            return left;
+        }
+
+        return evaluate(expr.right);
     }
 
     @Override
