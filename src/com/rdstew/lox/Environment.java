@@ -28,7 +28,7 @@ class Environment {
             return enclosing.get(name);
         }
 
-        throw new RuntimeError(name, "GET Undefined varaible '" + name.lexeme + "'.");
+        throw new RuntimeError(name, "GET Undefined variable '" + name.lexeme + "'.");
     }
 
     void assign(Token name, Object value) {

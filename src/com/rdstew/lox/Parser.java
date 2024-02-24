@@ -94,7 +94,7 @@ class Parser {
     private Stmt ifStatement() {
         consume(TokenType.LEFT_PAREN, "Expected '(' after If.");
         Expr condition = expression();
-        consume(TokenType.LEFT_PAREN, "Expected ')' after If condition.");
+        consume(TokenType.RIGHT_PAREN, "Expected ')' after If condition.");
 
         Stmt thenBranch = statement();
         Stmt elseBranch = null;
