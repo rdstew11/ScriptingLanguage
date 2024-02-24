@@ -64,7 +64,6 @@ class Parser {
         if (match(TokenType.EQUAL)) {
             initializer = expression();
         }
-
         consume(TokenType.SEMICOLON, "Expect ';' after variable declaration.");
         return new Stmt.Var(name, initializer);
     }
@@ -75,9 +74,6 @@ class Parser {
         }
         if (match(TokenType.IF)) {
             return ifStatement();
-        }
-        if (match(TokenType.PRINT)) {
-            return printStatement();
         }
         if (match(TokenType.RETURN)) {
             return returnStatement();
@@ -103,12 +99,6 @@ class Parser {
         }
         return new Stmt.If(condition, thenBranch, elseBranch);
 
-    }
-
-    private Stmt printStatement() {
-        Expr value = expression();
-        consume(TokenType.SEMICOLON, "Expect ';' after value.");
-        return new Stmt.Print(value);
     }
 
     private Stmt returnStatement() {
@@ -349,8 +339,9 @@ class Parser {
     }
 
     private Token consume(TokenType type, String message) {
-        if (check(type))
+        if (check(type)) {
             return advance();
+        }
         throw error(peek(), message);
     }
 
@@ -395,7 +386,6 @@ class Parser {
                 case FOR:
                 case FUN:
                 case IF:
-                case PRINT:
                 case RETURN:
                 case VAR:
                 case WHILE:
