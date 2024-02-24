@@ -1,6 +1,5 @@
 package com.rdstew.lox;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +25,9 @@ class Parser {
 
     private Stmt declaration() {
         try {
+            if (match(TokenType.FUN)) {
+                return function("function");
+            }
             if (match(TokenType.VAR)) {
                 return varDeclaration();
             }
@@ -34,6 +36,37 @@ class Parser {
             synchronize();
             return null;
         }
+    }
+
+    private Stmt.Function function(String kind) {
+        Token name = consume(TokenType.IDENTIFER, "Expect " + kind + " name.");
+        consume(TokenType.LEFT_PAREN, "Expected '(' after " + kind + " name.");
+        List<Token> parameters = new ArrayList<>();
+        if (!check(TokenType.RIGHT_PAREN)) {
+            do {
+                if (parameters.size() > 255) {
+                    error(peek(), "Can't have more than 255 parameters.");
+                }
+                parameters.add(consume(TokenType.IDENTIFER, "Expected parameter name."));
+            } while (match(TokenType.COMMA));
+        }
+        consume(TokenType.RIGHT_PAREN, "Expected ')' after parameters");
+
+        consume(TokenType.LEFT_BRACE, "Expected '{' before " + kind + " body.");
+        List<Stmt> body = block();
+        return new Stmt.Function(name, parameters, body);
+    }
+
+    private Stmt varDeclaration() {
+        Token name = consume(TokenType.IDENTIFER, "Expect variable name");
+
+        Expr initializer = null;
+        if (match(TokenType.EQUAL)) {
+            initializer = expression();
+        }
+
+        consume(TokenType.SEMICOLON, "Expect ';' after variable declaration.");
+        return new Stmt.Var(name, initializer);
     }
 
     private Stmt statement() {
@@ -119,18 +152,6 @@ class Parser {
             body = new Stmt.Block(Arrays.asList(initializer, body));
         }
         return body;
-    }
-
-    private Stmt varDeclaration() {
-        Token name = consume(TokenType.IDENTIFER, "Expect variable name");
-
-        Expr initializer = null;
-        if (match(TokenType.EQUAL)) {
-            initializer = expression();
-        }
-
-        consume(TokenType.SEMICOLON, "Expect ';' after variable declaration.");
-        return new Stmt.Var(name, initializer);
     }
 
     private Stmt expressionStatement() {
@@ -256,8 +277,8 @@ class Parser {
 
         if (!check(TokenType.RIGHT_PAREN)) {
             do {
-                if (arguments.size() >= 255){
-                    error(peek(), "Can't have more than 255 arguments.")
+                if (arguments.size() >= 255) {
+                    error(peek(), "Can't have more than 255 arguments.");
                 }
                 arguments.add(expression());
             } while (match(TokenType.COMMA));
