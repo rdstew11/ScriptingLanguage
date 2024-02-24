@@ -1,0 +1,6 @@
+var i = true;
+if (i) {
+    print "true";
+} else {
+    print "false";
+}
