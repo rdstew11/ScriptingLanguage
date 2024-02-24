@@ -1,3 +1,25 @@
-print "one";
-print true;
-print 2 + 1;
+var a = "global a";
+var b = "global b";
+var c = "global c";
+{
+    var a = "outer a";
+    var b = "outer b";
+    {
+        var a = "inner a";
+        print "";
+        print "Inner";
+        print a;
+        print b;
+        print c;
+    }
+    print "";
+    print "Outer";
+    print a;
+    print b;
+    print c;
+}
+print "";
+print "Global";
+print a;
+print b;
+print c;
