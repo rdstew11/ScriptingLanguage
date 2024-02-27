@@ -5,12 +5,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import com.rdstew.lox.Stmt.Function;
+
 class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     // Used to determine how many scopes there are between the current scope and the
     // scope where
     // a variable is defined
     private final Interpreter interpreter;
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
+    private FunctionType currentFunction = FunctionType.NONE;
+
+    private enum FunctionType {
+        NONE,
+        FUNCTION
+    }
 
     Resolver(Interpreter interpreter) {
         this.interpreter = interpreter;
@@ -30,7 +38,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         expr.accept(this);
     }
 
-    private void resolveFunction(Stmt.Function function) {
+    private void resolveFunction(Stmt.Function function, FunctionType type) {
+        FunctionType enclosingFunction = currentFunction;
+        currentFunction = type;
         beginScope();
         for (Token param : function.params) {
             declare(param);
@@ -38,14 +48,17 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
         resolve(function.body);
         endScope();
+        currentFunction = enclosingFunction;
     }
 
     private void resolveLocal(Expr expr, Token name) {
+        // If we walk all the scopes and don't find the variable
+        // assume that it is global
         for (int i = scopes.size() - 1; i >= 0; i--) {
             if (scopes.get(i).containsKey(name.lexeme)) {
                 interpreter.resolve(expr, scopes.size() - 1 - i);
+                return;
             }
-            return;
         }
     }
 
@@ -62,6 +75,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             return;
 
         Map<String, Boolean> scope = scopes.peek();
+        if (scope.containsKey(name.lexeme)) {
+            Lox.error(name, "Already a variable with this name in the scope.");
+        }
         scope.put(name.lexeme, false);
     }
 
@@ -90,7 +106,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitFunctionStmt(Stmt.Function stmt) {
         declare(stmt.name);
         define(stmt.name);
-        resolveFunction(stmt);
+        resolveFunction(stmt, FunctionType.FUNCTION);
         return null;
     }
 
@@ -105,6 +121,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitReturnStmt(Stmt.Return stmt) {
+        if (currentFunction == FunctionType.NONE) {
+            Lox.error(stmt.keyword, "Can't return from top level code.");
+        }
         if (stmt.value != null) {
             resolve(stmt.value);
         }
