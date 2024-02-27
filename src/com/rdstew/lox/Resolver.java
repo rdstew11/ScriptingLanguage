@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import com.rdstew.lox.Stmt.Function;
-
 class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     // Used to determine how many scopes there are between the current scope and the
     // scope where
@@ -93,6 +91,13 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         beginScope();
         resolve(stmt.statements);
         endScope();
+        return null;
+    }
+
+    @Override
+    public Void visitClassStmt(Stmt.Class stmt) {
+        declare(stmt.name);
+        define(stmt.name);
         return null;
     }
 
