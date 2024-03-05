@@ -1,0 +1,20 @@
+class Cat {
+    init() {
+        this.name = "Generic Cat";
+    }
+
+    print_name(){
+        print(this.name);
+    }
+}
+
+class Daisy (Cat) {
+    init() {
+        this.name = "Daisy";
+    }
+}
+
+var daisy = Daisy();
+var cat = Cat();
+daisy.print_name();
+cat.print_name();

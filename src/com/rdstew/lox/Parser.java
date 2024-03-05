@@ -42,7 +42,15 @@ class Parser {
     }
 
     private Stmt classDeclaration() {
-        Token name = consume(TokenType.IDENTIFER, "Expect class name");
+        Token name = consume(TokenType.IDENTIFER, "Expect class name.");
+
+        Expr.Variable superClass = null;
+        if (match(TokenType.LEFT_PAREN)) {
+            consume(TokenType.IDENTIFER, "Expect super class name.");
+            superClass = new Expr.Variable(previous());
+            consume(TokenType.RIGHT_PAREN, "Expect ')' after super class name.");
+        }
+
         consume(TokenType.LEFT_BRACE, "Expect '{' before class body.");
 
         List<Stmt.Function> methods = new ArrayList<>();
@@ -51,7 +59,7 @@ class Parser {
         }
 
         consume(TokenType.RIGHT_BRACE, "Expect '}' at end of class body.");
-        return new Stmt.Class(name, methods);
+        return new Stmt.Class(name, methods, superClass);
     }
 
     private Stmt.Function function(String kind) {
