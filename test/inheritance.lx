@@ -3,6 +3,10 @@ class Cat {
         this.name = "Generic Cat";
     }
 
+    override(){
+        this.print_name();
+    }
+
     print_name(){
         print(this.name);
     }
@@ -12,9 +16,17 @@ class Daisy (Cat) {
     init() {
         this.name = "Daisy";
     }
+
+    override(){
+        print("The best cat is...");
+        super.override();
+    }
 }
 
 var daisy = Daisy();
 var cat = Cat();
 daisy.print_name();
 cat.print_name();
+daisy.override();
+daisy.name = "a new name";
+daisy.print_name();

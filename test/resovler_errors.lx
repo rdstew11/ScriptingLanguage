@@ -1,8 +1,11 @@
 print(this);
 return this;
 
+super.help();
+
 class Cat {
     init(){
+        print(super.name);
         return "Not allowed!";
     }
 }
@@ -13,3 +16,4 @@ class Dog {
         return;
     }
 }
+
