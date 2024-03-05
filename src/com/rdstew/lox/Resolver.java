@@ -100,10 +100,16 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         declare(stmt.name);
         define(stmt.name);
 
+        // Define a new closure scope for each method
+        // Insert "this" keyword to closure.
+        beginScope();
+        scopes.peek().put("this", true);
+
         for (Stmt.Function method : stmt.methods) {
             FunctionType declaration = FunctionType.METHOD;
             resolveFunction(method, declaration);
         }
+        endScope();
         return null;
     }
 
@@ -221,6 +227,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitSetExpr(Expr.Set expr) {
         resolve(expr.value);
         resolve(expr.object);
+        return null;
+    }
+
+    @Override
+    public Void visitThisExpr(Expr.This expr) {
+        resolveLocal(expr, expr.keyword);
         return null;
     }
 

@@ -75,12 +75,11 @@ class Parser {
 
     private Stmt varDeclaration() {
         Token name = consume(TokenType.IDENTIFER, "Expect variable name");
-
         Expr initializer = null;
         if (match(TokenType.EQUAL)) {
             initializer = expression();
         }
-        consume(TokenType.SEMICOLON, "Expect ';' after variable declaration.");
+        consume(TokenType.SEMICOLON, "Expected ';' after variable declaration.");
         return new Stmt.Var(name, initializer);
     }
 
@@ -198,6 +197,7 @@ class Parser {
         Expr expr = or();
 
         if (match(TokenType.EQUAL)) {
+
             Token equals = previous();
             Expr value = assignment();
 
@@ -336,6 +336,9 @@ class Parser {
             return new Expr.Literal(null);
         if (match(TokenType.NUMBER, TokenType.STRING))
             return new Expr.Literal(previous().literal);
+        if (match(TokenType.THIS)) {
+            return new Expr.This(previous());
+        }
         if (match(TokenType.IDENTIFER))
             return new Expr.Variable(previous());
 

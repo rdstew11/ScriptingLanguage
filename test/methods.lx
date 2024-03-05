@@ -1,7 +1,9 @@
 class Cat {
-    myCat() {
-        print("Daisy Mae!");
+    print_name() {
+        print(this.name);
     }
 }
 
-Cat().myCat();
+var daisy = Cat();
+daisy.name = "Daisy mae!";
+daisy.print_name();
