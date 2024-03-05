@@ -1,0 +1,7 @@
+class Cat {
+    myCat() {
+        print("Daisy Mae!");
+    }
+}
+
+Cat().myCat();

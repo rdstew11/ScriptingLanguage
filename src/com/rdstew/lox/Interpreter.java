@@ -154,7 +154,14 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitClassStmt(Stmt.Class stmt) {
         environment.define(stmt.name.lexeme, null);
-        LoxClass lxClass = new LoxClass(stmt.name.lexeme);
+
+        Map<String, LoxFunction> methods = new HashMap<>();
+        for (Stmt.Function method : stmt.methods) {
+            LoxFunction function = new LoxFunction(method, environment);
+            methods.put(method.name.lexeme, function);
+        }
+
+        LoxClass lxClass = new LoxClass(stmt.name.lexeme, methods);
         environment.assign(stmt.name, lxClass);
         return null;
     }
@@ -175,23 +182,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) {
         return expr.value;
-    }
-
-    @Override
-    public Object visitLogicalExpr(Expr.Logical expr) {
-        Object left = evaluate(expr.left);
-
-        // Short circuit logic
-        // If Left is true and Operator is OR, return true
-        // If left is false and operator is AND, return false
-        // Else return whatever is on the right
-        if (expr.operator.type == TokenType.OR && isTruthy(left)) {
-            return left;
-        } else if (!isTruthy(left)) {
-            return left;
-        }
-
-        return evaluate(expr.right);
     }
 
     @Override
@@ -283,8 +273,46 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Object visitGetExpr(Expr.Get expr) {
+        Object object = evaluate(expr.object);
+        if (object instanceof LoxInstance) {
+            return ((LoxInstance) object).get(expr.name);
+        }
+
+        throw new RuntimeError(expr.name, "Only instances have properties.");
+    }
+
+    @Override
     public Object visitVariableExpr(Expr.Variable expr) {
         return lookUpVariable(expr.name, expr);
+    }
+
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr) {
+        Object left = evaluate(expr.left);
+
+        // Short circuit logic
+        // If Left is true and Operator is OR, return true
+        // If left is false and operator is AND, return false
+        // Else return whatever is on the right
+        if (expr.operator.type == TokenType.OR && isTruthy(left)) {
+            return left;
+        } else if (!isTruthy(left)) {
+            return left;
+        }
+
+        return evaluate(expr.right);
+    }
+
+    @Override
+    public Object visitSetExpr(Expr.Set expr) {
+        Object object = evaluate(expr.object);
+        if (!(object instanceof LoxInstance)) {
+            throw new RuntimeError(expr.name, "Only instances have fields.");
+        }
+        Object value = evaluate(expr.value);
+        ((LoxInstance) object).set(expr.name, value);
+        return value;
     }
 
     private Object lookUpVariable(Token name, Expr expr) {
