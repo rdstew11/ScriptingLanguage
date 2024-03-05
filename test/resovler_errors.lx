@@ -1,0 +1,15 @@
+print(this);
+return this;
+
+class Cat {
+    init(){
+        return "Not allowed!";
+    }
+}
+
+class Dog {
+    init(){
+        // Should be allowed
+        return;
+    }
+}
