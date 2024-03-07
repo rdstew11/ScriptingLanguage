@@ -1,4 +1,4 @@
-package com.rdstew.lox;
+package jlox.com.rdstew.lox;
 
 import java.util.HashMap;
 import java.util.Map;

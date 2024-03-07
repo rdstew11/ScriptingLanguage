@@ -1,4 +1,4 @@
-package com.rdstew.lox;
+package jlox.com.rdstew.lox;
 
 class Return extends RuntimeException {
     final Object value;

@@ -1,4 +1,4 @@
-package com.rdstew.lox;
+package jlox.com.rdstew.lox;
 
 import java.io.BufferedReader;
 import java.io.IOException;

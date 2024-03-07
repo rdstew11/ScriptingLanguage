@@ -1,5 +1,5 @@
 // Generates Expr.java with ASTs defined below
-package com.rdstew.tool;
+package jlox.com.rdstew.tool;
 
 import java.io.IOException;
 import java.io.PrintWriter;

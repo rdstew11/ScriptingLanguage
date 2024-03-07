@@ -1,4 +1,4 @@
-package com.rdstew.lox;
+package jlox.com.rdstew.lox;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -193,6 +193,7 @@ class Parser {
         }
 
         consume(TokenType.RIGHT_BRACE, "Expect '}' after block.");
+
         return statements;
     }
 

@@ -1,4 +1,4 @@
-package com.rdstew.lox;
+package jlox.com.rdstew.lox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
             @Override
             public String toString() {
-                return "<native fn>";
+                return "<builtin fn>";
             }
         });
 
@@ -46,7 +46,27 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
             @Override
             public String toString() {
-                return "<native fn>";
+                return "<builtin fn>";
+            }
+        });
+
+        globals.define("input", new LoxCallable() {
+            @Override
+            public int arity() {
+                return 1;
+            }
+
+            @Override
+            public Object call(Interpreter interpreter, List<Object> arguments) {
+                String prompt = (String) arguments.get(0);
+                System.out.print(prompt);
+                String console_in = System.console().readLine();
+                return console_in;
+            }
+
+            @Override
+            public String toString() {
+                return "<builtin fn>";
             }
         });
     }
