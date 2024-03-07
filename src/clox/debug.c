@@ -13,7 +13,8 @@ void disassembleChunk(Chunk *chunk, const char *name) {
 }
 
 static int constantInstr(const char *name, Chunk *chunk, int offset) {
-    uint8_t constant = chunk->code[offset + 1];
+    // TODO - Figure out why book has offset + 1 and I don't
+    uint8_t constant = chunk->code[offset];
     printf("%-16s %4d '", name, constant);
     printValue(chunk->constants.values[constant]);
     printf("'\n");
