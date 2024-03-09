@@ -30,7 +30,7 @@ int disassembleInstr(Chunk *chunk, int offset) {
     printf("%04d ", offset);
 
     if (offset > 0 && chunk->lines[offset] == chunk->lines[offset - 1]) {
-        printf("    |");
+        printf("\t|");
     } else {
         printf("%4d ", chunk->lines[offset]);
     }
@@ -41,6 +41,16 @@ int disassembleInstr(Chunk *chunk, int offset) {
             return constantInstr("OP_CONSTANT", chunk, offset);
         case OP_RETURN:
             return simpleInstr("OP_RETURN", offset);
+        case OP_ADD:
+            return simpleInstr("OP_ADD", offset);
+        case OP_SUBTRACT:
+            return simpleInstr("OP_SUBTRACT", offset);
+        case OP_MULTIPLY:
+            return simpleInstr("OP_MULTIPLY", offset);
+        case OP_DIVIDE:
+            return simpleInstr("OP_DIVIDE", offset);
+        case OP_NEGATE:
+            return simpleInstr("OP_NEGATE", offset);
         default:
             printf("Unknown opcode %d\n", instr);
             return offset + 1;

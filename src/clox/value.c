@@ -20,7 +20,6 @@ void writeValueArray(ValueArray *array, Value value) {
 
     array->values[array->count] = value;
     array->count++;
-    printf("Value array count: %d\n", array->count);
 }
 
 void freeValueArray(ValueArray *array) {
