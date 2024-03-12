@@ -101,7 +101,7 @@ static TokenType checkKeyword(int start, int length, const char* rest,
     return TOKEN_IDENTIFIER;
 }
 
-static TokenType indentifierType() {
+static TokenType identifierType() {
     switch (scanner.start[0]) {
         case 'a':
             return checkKeyword(1, 2, "nd", TOKEN_AND);
