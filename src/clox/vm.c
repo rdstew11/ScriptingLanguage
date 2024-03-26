@@ -49,7 +49,6 @@ static InterpretResult run() {
     // direct threaded code, jump table, computed goto
     for (;;) {
 #ifdef DEBUG_TRACE_EXECUTION
-        printf("        ");
         for (Value* slot = vm.stack; slot < vm.stackTop; slot++) {
             printf("[");
             printValue(*slot);
@@ -57,13 +56,11 @@ static InterpretResult run() {
         }
         disassembleInstr(vm.chunk, (int)(vm.ip - vm.chunk->code));
 #endif
-
         uint8_t instr;
         switch (instr = READ_BYTE()) {
             case OP_CONSTANT: {
                 Value constant = READ_CONSTANT();
                 push(constant);
-                printf("\n");
                 break;
             }
             case OP_NEGATE:

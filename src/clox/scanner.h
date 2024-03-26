@@ -13,7 +13,6 @@ typedef enum {
     TOKEN_SEMICOLON,
     TOKEN_SLASH,
     TOKEN_STAR,
-
     TOKEN_BANG,
     TOKEN_BANG_EQUAL,
     TOKEN_EQUAL,
@@ -22,11 +21,9 @@ typedef enum {
     TOKEN_GREATER_EQUAL,
     TOKEN_LESS,
     TOKEN_LESS_EQUAL,
-
     TOKEN_IDENTIFIER,
     TOKEN_STRING,
     TOKEN_NUMBER,
-
     TOKEN_AND,
     TOKEN_CLASS,
     TOKEN_ELSE,
@@ -43,7 +40,6 @@ typedef enum {
     TOKEN_TRUE,
     TOKEN_VAR,
     TOKEN_WHILE,
-
     TOKEN_ERROR,
     TOKEN_EOF
 } TokenType;
