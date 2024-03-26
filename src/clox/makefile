@@ -14,4 +14,4 @@ lox: $(OBJ)
 	$(CC) -o lox $(OBJ) $(CFLAGS)
 
 clean:
-	rm *.o
+	del *.o
