@@ -39,6 +39,18 @@ int disassembleInstr(Chunk *chunk, int offset) {
     switch (instr) {
         case OP_CONSTANT:
             return constantInstr("OP_CONSTANT", chunk, offset);
+        case OP_NIL:
+            return simpleInstr("OP_NIL", offset);
+        case OP_FALSE:
+            return simpleInstr("OP_FALSE", offset);
+        case OP_EQUAL:
+            return simpleInstr("OP_EQUAL", offset);
+        case OP_GREATER:
+            return simpleInstr("OP_GREATER", offset);
+        case OP_LESS:
+            return simpleInstr("OP_LESS", offset);
+        case OP_TRUE:
+            return simpleInstr("OP_TRUE", offset);
         case OP_RETURN:
             return simpleInstr("OP_RETURN", offset);
         case OP_ADD:
@@ -49,6 +61,8 @@ int disassembleInstr(Chunk *chunk, int offset) {
             return simpleInstr("OP_MULTIPLY", offset);
         case OP_DIVIDE:
             return simpleInstr("OP_DIVIDE", offset);
+        case OP_NOT:
+            return simpleInstr("OP_NOT", offset);
         case OP_NEGATE:
             return simpleInstr("OP_NEGATE", offset);
         default:
