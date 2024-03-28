@@ -4,8 +4,8 @@ CFLAGS=-I.
 ODIR=obj
 LIBS=
 
-DEPS = chunk.h common.h memory.h debug.h value.h vm.h scanner.h compiler.h
-OBJ = main.o memory.o chunk.o debug.o value.o vm.o scanner.o compiler.o
+DEPS = chunk.h common.h memory.h debug.h value.h vm.h scanner.h compiler.h object.h
+OBJ = main.o memory.o chunk.o debug.o value.o vm.o scanner.o compiler.o object.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
