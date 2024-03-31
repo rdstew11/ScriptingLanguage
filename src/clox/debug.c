@@ -43,6 +43,12 @@ int disassembleInstr(Chunk *chunk, int offset) {
             return simpleInstr("OP_NIL", offset);
         case OP_FALSE:
             return simpleInstr("OP_FALSE", offset);
+        case OP_POP:
+            return simpleInstr("OP_POP", offset);
+        case OP_GET_GLOBAL:
+            return constantInstr("OP_GET_GLOBAL", chunk, offset);
+        case OP_DEFINE_GLOBAL:
+            return constantInstr("OP_DEFINE_GLOBAL", chunk, offset);
         case OP_EQUAL:
             return simpleInstr("OP_EQUAL", offset);
         case OP_GREATER:
@@ -65,6 +71,8 @@ int disassembleInstr(Chunk *chunk, int offset) {
             return simpleInstr("OP_NOT", offset);
         case OP_NEGATE:
             return simpleInstr("OP_NEGATE", offset);
+        case OP_PRINT:
+            return simpleInstr("OP_PRINT", offset);
         default:
             printf("Unknown opcode %d\n", instr);
             return offset + 1;
