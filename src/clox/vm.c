@@ -51,6 +51,7 @@ Value pop() {
 }
 
 static Value peek(int distance){
+    /** Return top value of stack without popping.*/
     return vm.stackTop[-1 - distance];
 }
 
@@ -120,6 +121,16 @@ static InterpretResult run() {
             case OP_NIL: push(NIL_VAL); break;
             case OP_FALSE: push(BOOL_VAL(false)); break;
             case OP_POP: pop(); break;
+            case OP_GET_LOCAL: {
+                uint8_t slot = READ_BYTE();
+                push(vm.stack[slot]);
+                break;
+            }
+            case OP_SET_LOCAL: {
+                uint8_t slot = READ_BYTE();
+                vm.stack[slot] = peek(0);
+                break;
+            }
             case OP_GET_GLOBAL: {
                 ObjString *name = READ_STRING();
                 Value value;
