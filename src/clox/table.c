@@ -73,6 +73,10 @@ static void adjustCapacity(Table* table, int capacity){
 }
 
 bool tableSet(Table* table, ObjString* key, Value value){
+    /** Adds key/value pair to table
+     *
+     * Returns true if its a new key, false if not
+     */
     if (table->count + 1 > table->capacity * TABLE_MAX_LOAD){
         int capacity = GROW_CAPACITY(table->capacity);
         adjustCapacity(table, capacity);

@@ -1,0 +1,2 @@
+var ryan = "wow that is pretty cool";
+print ryan;

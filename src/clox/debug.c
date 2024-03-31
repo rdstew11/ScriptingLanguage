@@ -49,6 +49,8 @@ int disassembleInstr(Chunk *chunk, int offset) {
             return constantInstr("OP_GET_GLOBAL", chunk, offset);
         case OP_DEFINE_GLOBAL:
             return constantInstr("OP_DEFINE_GLOBAL", chunk, offset);
+        case OP_SET_GLOBAL:
+            return constantInstr("OP_SET_GLOBAL", chunk, offset);
         case OP_EQUAL:
             return simpleInstr("OP_EQUAL", offset);
         case OP_GREATER:
