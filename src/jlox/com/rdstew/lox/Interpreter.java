@@ -72,6 +72,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     void interpret(List<Stmt> statements) {
+        printf("Starting interpret\n");
         try {
             for (Stmt statement : statements) {
                 execute(statement);
