@@ -517,9 +517,17 @@ static void ifStatement(){
     expression();
     consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
     int thenJump = emitJump(OP_JUMP_IF_FALSE);
+    emitByte(OP_POP);  // Pop condition if truthy
     statement();
 
+    int elseJump = emitJump(OP_JUMP);
+
     patchJump(thenJump);
+    emitByte(OP_POP); // Pop condition if falsey
+
+    if (match(TOKEN_ELSE)) statement();
+    patchJump(elseJump);
+
 }
 
 static void varDeclaration(){
