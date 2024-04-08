@@ -18,9 +18,6 @@ all: $(EXE)
 
 .phony: all
 
-print:
-	echo $(OBJ)
-
 $(EXE): $(OBJ) | $(BIN_DIR)
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
