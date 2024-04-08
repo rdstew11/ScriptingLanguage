@@ -1,19 +1,34 @@
+INC_DIR := include
+SRC_DIR := src
+OBJ_DIR := obj
+BIN_DIR := .
+
+EXE = $(BIN_DIR)/lox
+
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+
+
 CC=gcc
+CFLAGS  := -I$(INC_DIR) -Wall
+LDFLAGS := -Llib
+LDLIBS  :=
 
-INC_DIR=include/
-CFLAGS=-I$(INC_DIR)
+all: $(EXE)
 
-ODIR=obj
-LIBS=
+.phony: all
 
-DEPS = common.h memory.h chunk.h debug.h value.h vm.h scanner.h compiler.h object.h table.h
-OBJ = main.o memory.o chunk.o debug.o value.o vm.o scanner.o compiler.o object.o table.c
+print:
+	echo $(OBJ)
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(EXE): $(OBJ) | $(BIN_DIR)
+	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-all: $(OBJ)
-	$(CC) -o lox $(OBJ) $(CFLAGS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(SRC_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BIN_DIR) $(OBJ_DIR):
+	mkdir -p $@
 
 clean:
-	del *.o
+	del $(OBJ_DIR)\*.o
