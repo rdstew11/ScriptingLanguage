@@ -8,8 +8,7 @@ EXE = $(BIN_DIR)/lox
 SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-
-CC=gcc
+CC      := gcc
 CFLAGS  := -I$(INC_DIR) -Wall
 LDFLAGS := -Llib
 LDLIBS  :=
