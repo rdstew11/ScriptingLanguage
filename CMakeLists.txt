@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 project(lox)
 set(CMAKE_CXX_STANDARD 17)
-set(INCLUDE_DIRECTORY "./include")
+set(INCLUDE_DIRECTORY "include")
 
 add_executable(lox src/main.c
         src/chunk.c
@@ -25,5 +25,5 @@ add_executable(lox src/main.c
         include/vm.h
 )
 
-target_include_directories(lox PRIVATE ./include)
-include_directories(./include)
+target_include_directories(lox PRIVATE include)
+include_directories(include)
