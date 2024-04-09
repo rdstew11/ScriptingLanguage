@@ -3,7 +3,7 @@ This repository contains the C foundational work that has been done alongside my
 ['Crafting Interpreters' by Robert Nystrom](https://craftinginterpreters.com/). 
 
 I originally implemented this language structure in Java, which had the added benefits of leaning into JVM's garbage 
-collector and class structure. This can be seen here: <link>
+collector and class structure. This can be seen here: [rdstew11/Interpreter](https://github.com/rdstew11/Interpreter).
 
 I am using this project as a playground to explore concepts related to the implementation of programming languages. This 
 implementation is by no means a complete programming language. It's current state is the of an early scripting language.
