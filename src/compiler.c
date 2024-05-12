@@ -120,7 +120,6 @@ const char *tokenTypeNames[] = {
 // TODO look into making these Non-Globals
 Parser parser;
 Compiler* current = NULL;
-Chunk* compilingChunk;
 
 static Chunk* currentChunk() { return &current->function->chunk; }
 
@@ -716,18 +715,18 @@ static void statement(){
 }
 
 
-ObjFunction* compile(const char* source, Chunk* chunk) {
+ObjFunction* compile(const char* source) {
     initScanner(source);
     Compiler compiler;
     initCompiler(&compiler, TYPE_SCRIPT);
-    compilingChunk = chunk;
     parser.hadError = false;
     parser.panicMode = false;
     advance();
+
     while(!match(TOKEN_EOF)){
         declaration();
     }
-    consume(TOKEN_EOF, "Expect end of expression.");
+
     ObjFunction* function = endCompiler();
     return parser.hadError ? NULL: function;
 }
